@@ -24,8 +24,15 @@ SECRET_KEY = '-gto&j*3xdm((8bqto4$idg91x@cgq&zv*v7$ms#1n2&4@w-%x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# basic debug config
+import logging
+logging.basicConfig(
+        level = logging.DEBUG,
+        format = '%(asctime)s %(levelname)s %(message)s',
+        )
 
-#ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.100']
+#APPEND_SLASH = False
 
 
 # Application definition

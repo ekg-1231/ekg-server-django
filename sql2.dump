@@ -1,0 +1,6 @@
+BEGIN;
+--
+-- Add field password to patient
+--
+ALTER TABLE "ekg_patient" ADD COLUMN "password" varchar(100) NOT NULL;
+COMMIT;

@@ -1,0 +1,52 @@
+BEGIN;
+--
+-- Create model Affiliation
+--
+CREATE TABLE "ekg_affiliation" ("id" serial NOT NULL PRIMARY KEY);
+--
+-- Create model Doctor
+--
+CREATE TABLE "ekg_doctor" ("id" serial NOT NULL PRIMARY KEY, "name" varchar(64) NOT NULL, "phone" varchar(16) NOT NULL, "email" varchar(128) NOT NULL, "address" text NOT NULL);
+--
+-- Create model History
+--
+CREATE TABLE "ekg_history" ("id" serial NOT NULL PRIMARY KEY, "dataset_is_dataset" boolean NOT NULL, "dataset_class" varchar(40) NULL, "message" text NULL, "data" bytea NOT NULL);
+--
+-- Create model Hospital
+--
+CREATE TABLE "ekg_hospital" ("id" serial NOT NULL PRIMARY KEY, "name" varchar(80) NOT NULL, "phone" varchar(16) NOT NULL, "address" text NOT NULL);
+--
+-- Create model Patient
+--
+CREATE TABLE "ekg_patient" ("id" serial NOT NULL PRIMARY KEY, "name" varchar(64) NOT NULL, "date_of_birth" timestamp with time zone NOT NULL, "height" integer NOT NULL, "weight" integer NOT NULL, "phone" varchar(16) NOT NULL, "email" varchar(128) NOT NULL, "address" text NOT NULL);
+--
+-- Add field patient to history
+--
+ALTER TABLE "ekg_history" ADD COLUMN "patient_id" integer NOT NULL;
+--
+-- Add field suggestion to history
+--
+ALTER TABLE "ekg_history" ADD COLUMN "suggestion_id" integer NOT NULL;
+--
+-- Add field verifier to history
+--
+ALTER TABLE "ekg_history" ADD COLUMN "verifier_id" integer NOT NULL;
+--
+-- Add field doctor to affiliation
+--
+ALTER TABLE "ekg_affiliation" ADD COLUMN "doctor_id" integer NOT NULL;
+--
+-- Add field hospital to affiliation
+--
+ALTER TABLE "ekg_affiliation" ADD COLUMN "hospital_id" integer NOT NULL;
+CREATE INDEX "ekg_history_patient_id_43f0ab7d" ON "ekg_history" ("patient_id");
+ALTER TABLE "ekg_history" ADD CONSTRAINT "ekg_history_patient_id_43f0ab7d_fk_ekg_patient_id" FOREIGN KEY ("patient_id") REFERENCES "ekg_patient" ("id") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX "ekg_history_suggestion_id_13c4dd24" ON "ekg_history" ("suggestion_id");
+ALTER TABLE "ekg_history" ADD CONSTRAINT "ekg_history_suggestion_id_13c4dd24_fk_ekg_hospital_id" FOREIGN KEY ("suggestion_id") REFERENCES "ekg_hospital" ("id") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX "ekg_history_verifier_id_d23db435" ON "ekg_history" ("verifier_id");
+ALTER TABLE "ekg_history" ADD CONSTRAINT "ekg_history_verifier_id_d23db435_fk_ekg_doctor_id" FOREIGN KEY ("verifier_id") REFERENCES "ekg_doctor" ("id") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX "ekg_affiliation_doctor_id_1cd721bb" ON "ekg_affiliation" ("doctor_id");
+ALTER TABLE "ekg_affiliation" ADD CONSTRAINT "ekg_affiliation_doctor_id_1cd721bb_fk_ekg_doctor_id" FOREIGN KEY ("doctor_id") REFERENCES "ekg_doctor" ("id") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX "ekg_affiliation_hospital_id_2fa6ab0c" ON "ekg_affiliation" ("hospital_id");
+ALTER TABLE "ekg_affiliation" ADD CONSTRAINT "ekg_affiliation_hospital_id_2fa6ab0c_fk_ekg_hospital_id" FOREIGN KEY ("hospital_id") REFERENCES "ekg_hospital" ("id") DEFERRABLE INITIALLY DEFERRED;
+COMMIT;

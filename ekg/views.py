@@ -12,12 +12,13 @@ def index(request):
 
 def register_patient(request):
 	id_patient = request.GET.get('id_patient')
-	password = request.GET.get('password')
-	name = request.GET.get('name')
-	phone = request.GET.get('phone')
-	email = request.GET.get('email')
-	address = request.GET.get('address')
-	patient = Patient(id_patient, password, name, phone, email, address)
+	p_password = request.GET.get('password')
+	p_name = request.GET.get('name')
+	p_phone = request.GET.get('phone')
+	p_email = request.GET.get('email')
+	p_address = request.GET.get('address')
+	print id_patient,p_name,p_password,p_phone,p_email,p_address
+	patient = Patient(id_patient, password=p_password, name=p_name, phone=p_phone, email=p_email, address=p_address)
 	patient.save()
 	return HttpResponse('berhasil')
 

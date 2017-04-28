@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^RegisterHospital$', views.register_hospital, name='register_hospital'),
     url(r'^RegisterAffiliation$', views.register_affiliation, name='register_affiliation'),
     url(r'^GetDoctorAffiliation$', views.get_doctor_affiliation, name='get_doctor_affiliation'),
+    url(r'^GetAllPatients$', views.get_all_patients, name='get_all_patients'),
 ]

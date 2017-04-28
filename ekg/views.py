@@ -198,3 +198,9 @@ def get_doctor_affiliation(request):
 		if(pass_patient != patient.password):
 			return HttpResponse('Password salah')
 		return HttpResponse('' + affiliation.id_doctor + '\n' + affiliation.id_hospital)
+
+def get_all_patients(request):
+	patients = Patient.objects.all()
+	for i in patients:
+		print i.name,i.address
+		return HttpResponse(i.name + ',' + i.address)

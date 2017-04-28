@@ -31,7 +31,7 @@ logging.basicConfig(
         format = '%(asctime)s %(levelname)s %(message)s',
         )
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.100']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.100']
 #APPEND_SLASH = False
 
 

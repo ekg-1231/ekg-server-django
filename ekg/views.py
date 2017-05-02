@@ -11,14 +11,14 @@ def index(request):
     return HttpResponse('<h1>Welcome to E-Cardio Server</h1>')
 
 def register_patient(request):
-	id_patient = request.GET.get('id_patient')
+	id_patient = request.GET.get('id')
 	p_password = request.GET.get('password')
 	p_name = request.GET.get('name')
 	p_phone = request.GET.get('phone')
 	p_email = request.GET.get('email')
 	p_address = request.GET.get('address')
 	print id_patient,p_name,p_password,p_phone,p_email,p_address
-	patient = Patient(id_patient, password=p_password, name=p_name, phone=p_phone, email=p_email, address=p_address)
+	patient = Patient(password=p_password, name=p_name, phone=p_phone, email=p_email, address=p_address)
 	patient.save()
 	return HttpResponse('berhasil')
 
@@ -201,6 +201,8 @@ def get_doctor_affiliation(request):
 
 def get_all_patients(request):
 	patients = Patient.objects.all()
+	response = HttpResponse()
 	for i in patients:
 		print i.name,i.address
-		return HttpResponse(i.name + ',' + i.address)
+		response.write(i.name + ' ' + i.address + '\n')
+	return response

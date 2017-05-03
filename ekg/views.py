@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from models import Patient
+from models import *
+import binascii
 
 # Create your views here.
 
@@ -34,20 +35,32 @@ def register_doctor(request):
 	return HttpResponse('berhasil')
 
 def upload_history(request):
-	id = request.POST.get('id')
-	id_patient = request.POST.get('id_patient')
-	pass_patient = request.POST.get('pass_patient')
-	ndata = request.POST.get('data')
-	history = History(id = id_patient, data = ndata)
+	print '/upload_history'
+	print request.GET
+	id = request.GET.get('id')
+	id_patient = request.GET.get('id_patient')
+	pass_patient = request.GET.get('pass_patient')
+	ndata = request.GET.get('data')
+	patient = None
+	try:
+		patient = Patient.objects.get(id=id_patient)
+	except Exception as e:
+		print 'pasien tidak ditemukan'
+		return HttpResponse('pasien tidak ditemukan')
+	# print binascii.a2b_uu(ndata)
+	history = History(id=id, data=ndata, dataset_class="", dataset_is_dataset=False, message="",
+		patient=patient)
+	history.save()
 	return HttpResponse('berhasil')
+	# return HttpResponse()
 
 def look_history(request):
 	print '/look_history: '
 	look_id = request.GET.get('id')
-	print id
+	print look_id
 	try:
 		history = History.objects.get(id=look_id)
-	except model.DoesNotExist:
+	except Exception as e:
 		history = None
 	if(history != None):
 		print 'History ditemukan'
@@ -203,6 +216,15 @@ def get_all_patients(request):
 	patients = Patient.objects.all()
 	response = HttpResponse()
 	for i in patients:
+		print i.name,i.address
+		response.write(i.name + ' ' + i.address + '\n')
+	return response
+
+def get_all_hospitals(request):
+	hospitals = Hospital.objects.all()
+	response = HttpResponse()
+	print 'request: get_all_hospitals'
+	for i in hospitals:
 		print i.name,i.address
 		response.write(i.name + ' ' + i.address + '\n')
 	return response

@@ -16,4 +16,6 @@ urlpatterns = [
     url(r'^RegisterAffiliation$', views.register_affiliation, name='register_affiliation'),
     url(r'^GetDoctorAffiliation$', views.get_doctor_affiliation, name='get_doctor_affiliation'),
     url(r'^GetAllPatientData$', views.get_all_patients, name='get_all_patients'),
+    url(r'^GetAllHospitalData$', views.get_all_hospitals, name='get_all_hospitals'),
+    # url(r'^[0-9A-Za-z]*$', views.index, name='index'),
 ]
